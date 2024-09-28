@@ -9,7 +9,10 @@
 
 
 struct sthread_rwlock_struct {
-        /* FILL ME IN! */
+        int numOfReaders;
+	int numOfWriters;
+	sthread_t queuedReaders;
+	sthread_t queuedWriters;
 };
 
 typedef struct sthread_rwlock_struct sthread_rwlock_t;
