@@ -13,6 +13,9 @@ struct sthread_rwlock_struct {
 	int numOfWriters;
 	sthread_t queuedReaders;
 	sthread_t queuedWriters;
+	pthread_mutex_t mutex_lock; 
+	pthread_cond_t readCond;
+	pthread_cond_t writeCond;
 };
 
 typedef struct sthread_rwlock_struct sthread_rwlock_t;
