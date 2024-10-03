@@ -9,8 +9,8 @@
 
 
 struct sthread_rwlock_struct {
-        int numOfReaders;
-	int numOfWriters;
+        
+        int writeRequest;
 	int numOfThreads;
 	sthread_t queuedReaders;
 	sthread_t queuedWriters;
