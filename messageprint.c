@@ -28,6 +28,9 @@ int isPrime(int num){
     if(num <= 1){
         return 0;
     }
+    if(num == 2){
+        return 1;
+    }
     for(int b = 2; b < num; b++){
         if(num % b == 0){
             checkPrime = 0;
@@ -88,15 +91,17 @@ int main(int argc, char* argv[]){
     printf("Enter desired number of threads:\n");
     scanf("%d", &i);
 
-    //creating threads
-    pthread_t thread[i];
+    pthread_t thread[i]; //creating threads
 
-    numOfThreads = i-1;
-    printf("Here is the last threadID in execution: %d\n", numOfThreads);
+
+    numOfThreads = i-1; //number of threads to execute
+
+    int* threadIDs = malloc(i * sizeof(int)); //dynamically allocating space for threads
 
 
     for(int x = 0; x < i; x++){
-        if(pthread_create((&thread[x]), NULL, &routine, &x) != 0){
+        threadIDs[x] = x;
+        if(pthread_create((&thread[x]), NULL, &routine, &threadIDs[x]) != 0){
             return 1;
         }
     }
@@ -111,5 +116,6 @@ int main(int argc, char* argv[]){
     printf("tracker: %d\n", tracker);
     return 0;
 }
+
 
 
