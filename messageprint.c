@@ -20,10 +20,14 @@ int numOfThreads;
 //keeps track of the prime thread--> 0 means composite 1 means prime
 int prime = 0;
 
+
 //function used to check if the number is prime or composite
 int isPrime(int num){
     //assumes number is not prime
     int checkPrime = 0;
+    if(num <= 1){
+        return 0;
+    }
     for(int b = 2; b < num; b++){
         if(num % b == 0){
             checkPrime = 0;
@@ -39,38 +43,39 @@ int isPrime(int num){
 
 //routine for thread creation
 void* routine(void* arg){
-    //printing threadID for current calling thread
-    printf("Here is the thread ID: %lu \n", (long unsigned) pthread_self());
-
+    int ptid = *((int*)arg);
+    //casting manually assigned threadID number ot thread number
+    pthread_mutex_lock(&lock);
+    printf("This is a new thread processing\n");
+    printf("ptid: %d\n", ptid);
     //calls function to check if thread is prime or composite
-    unsigned long tid = (unsigned long)pthread_self();
-    prime = isPrime((int)tid);
-    printf("%d\n", prime);
-
+    prime = isPrime(ptid);
+    printf("prime val: %d\n", prime);
+    if(prime == 1){
+        printf("Executing Prime threads first...\n");
+    }
     //getting threadID will work off of this to process composite and prime threadID
     if(prime == 0 && tracker == numOfThreads){
-        pthread_mutex_lock(&lock);
-        pthread_mutex_unlock(&lock);
         tracker++;
+        printf("executing thread: %d\n", ptid);
+        pthread_mutex_unlock(&lock);
         pthread_cond_broadcast(&CV);
     }
     else if(prime == 0){
-        pthread_mutex_lock(&lock);
-        //printf("Here is the thread ID: %lu \n", (long unsigned) pthread_self());
-        pthread_mutex_unlock(&lock);
         tracker++;
+        printf("executing thread: %d\n", ptid);
+        pthread_mutex_unlock(&lock);
     }
     else{
-        tracker++;
-        pthread_mutex_lock(&lock);
         while(number_prime_finished == 0){
-            printf("ThreadID in the else block: %lu\n", (long unsigned) pthread_self());
-            printf("Executing Prime threads first...\n");
+            tracker++;
             pthread_cond_wait(&CV, &lock);
+            printf("Thread is has been broadcasted, here is the prime thread ID: %d\n", ptid);
+            pthread_mutex_unlock(&lock);
+            return 0;
         }
-        pthread_mutex_unlock(&lock);
     }
-    return 0;
+    return NULL;
 }
 
 
@@ -87,9 +92,11 @@ int main(int argc, char* argv[]){
     pthread_t thread[i];
 
     numOfThreads = i-1;
+    printf("Here is the last threadID in execution: %d\n", numOfThreads);
+
 
     for(int x = 0; x < i; x++){
-        if(pthread_create((&thread[x]), NULL, &routine, NULL) != 0){
+        if(pthread_create((&thread[x]), NULL, &routine, &x) != 0){
             return 1;
         }
     }
@@ -104,3 +111,5 @@ int main(int argc, char* argv[]){
     printf("tracker: %d\n", tracker);
     return 0;
 }
+
+
