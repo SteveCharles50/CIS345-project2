@@ -59,7 +59,7 @@ int sthread_rwlock_init(sthread_rwlock_t *rwlock)
 
 int sthread_rwlock_destroy(sthread_rwlock_t *rwlock)
 {
-        print("\nDestroy");
+        printf("\nDestroy");
         return 0;
 }
 
@@ -70,7 +70,7 @@ int sthread_read_lock(sthread_rwlock_t *rwlock)
         while(test_and_set_bit(&rwlock->spinLock)){
           sched_yield();
         }
-        if(rwlock->numOfWriters){
+        if(rwlock->numOfReaders >0 || rwlock->numOfWriters){
             sthread_suspend(); // if the writer is active, it suspeneds
         }
         rwlock->numOfReaders++;
@@ -78,11 +78,6 @@ int sthread_read_lock(sthread_rwlock_t *rwlock)
         return 0;
 }
 
-int sthread_read_try_lock(sthread_rwlock_t *rwlock)
-{
-        /* FILL ME IN! */
-        return 0;
-}
 
 int sthread_read_unlock(sthread_rwlock_t *rwlock)
 {
@@ -107,7 +102,7 @@ int sthread_write_lock(sthread_rwlock_t *rwlock)
           sched_yield();
         }
         
-        if (rwlock->numOfReaders ==0 || rwlock->numOfWriters==0){ 
+        if (rwlock->numOfReaders >0 || rwlock->numOfWriters){ 
             sthread_suspend(); // if the writer is active, it suspeneds
             
          }
@@ -117,11 +112,7 @@ int sthread_write_lock(sthread_rwlock_t *rwlock)
         
 }
 
-int sthread_write_try_lock(sthread_rwlock_t *rwlock)
-{
-        /* FILL ME IN! */
-        return 0;
-}
+
 
 int sthread_write_unlock(sthread_rwlock_t *rwlock)
 {
@@ -137,3 +128,13 @@ int sthread_write_unlock(sthread_rwlock_t *rwlock)
         return 0;
 }
 
+int sthread_read_try_lock(sthread_rwlock_t *rwlock)
+{
+        /* FILL ME IN! */
+        return 0;
+}
+int sthread_write_try_lock(sthread_rwlock_t *rwlock)
+{
+        /* FILL ME IN! */
+        return 0;
+}
