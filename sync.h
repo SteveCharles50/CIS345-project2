@@ -8,11 +8,12 @@
 #define _STHREAD_SYNC_H_
 
 
+
 struct sthread_rwlock_struct {
-        int numOfReaders;
+        int numberOfThreads;
 	int numOfWriters;
-	sthread_t queuedReaders;
-	sthread_t queuedWriters;
+	int numOfReaders;
+	volatile unsigned long spinLock;
 };
 
 typedef struct sthread_rwlock_struct sthread_rwlock_t;

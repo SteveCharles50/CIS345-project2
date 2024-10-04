@@ -53,77 +53,87 @@ int sthread_rwlock_init(sthread_rwlock_t *rwlock)
 {
         rwlock->numOfReaders=0;
         rwlock->numOfWriters=0;
+        rwlock->spinLock=0;
         return 0;
 }
 
 int sthread_rwlock_destroy(sthread_rwlock_t *rwlock)
 {
-        /* FILL ME IN! */
+        print("\nDestroy");
         return 0;
 }
 
 int sthread_read_lock(sthread_rwlock_t *rwlock)
 {
+        printf("\nRead Lock\n");
         //keeps the thread lock while writing
-        while(true){
-          if (rwlock->numOfWriters ==0){ 
-            rwlock->numOfReaders++; //initiate the lock
-            return 0;
-          }
-          sthread_suspend(); // if the writer or reader is active, it suspeneds
+        while(test_and_set_bit(&rwlock->spinLock)){
+          sched_yield();
         }
+        if(rwlock->numOfWriters){
+            sthread_suspend(); // if the writer is active, it suspeneds
+        }
+        rwlock->numOfReaders++;
+        rwlock->spinLock=0;
+        return 0;
 }
 
 int sthread_read_try_lock(sthread_rwlock_t *rwlock)
 {
-        if(rwlock->numOfReaders==0){
-          rwlock->numOfReaders++;
-          return 0;
-        }
-        return -1;
+        /* FILL ME IN! */
+        return 0;
 }
 
 int sthread_read_unlock(sthread_rwlock_t *rwlock)
 {
+        printf("\nRead unlock\n");
+        while(test_and_set_bit(&rwlock->spinLock)){
+          sched_yield();
+        }
         rwlock->numOfReaders--;
         //if no readers exist after decrementing, wakeup the next queued writers
         if (rwlock->numOfReaders ==0){ 
-            sthread_wake(rwlock->queuedWriters); 
+            sthread_wake(NULL); 
             
           } 
+        rwlock->spinLock=0;
         return 0;
 }
 
 int sthread_write_lock(sthread_rwlock_t *rwlock)
 {
-        while(true){
-          if (rwlock->numOfReaders ==0 && rwlock->numOfWriters==0){ 
-            rwlock->numOfWriters++; //initiate the lock
-            return 0;
-          }
-          sthread_suspend(); // if the writer is active, it suspeneds
+        printf("\nWrite Lock\n");
+        while(test_and_set_bit(&rwlock->spinLock)){
+          sched_yield();
         }
+        
+        if (rwlock->numOfReaders ==0 || rwlock->numOfWriters==0){ 
+            sthread_suspend(); // if the writer is active, it suspeneds
+            
+         }
+        rwlock->numOfWriters=1;
+        rwlock->spinLock=0;
+        return 0;
         
 }
 
 int sthread_write_try_lock(sthread_rwlock_t *rwlock)
 {
-        if (rwlock->numOfReaders == 0 && rwlock->numOfWriters == 0) {
-          rwlock->numOfWriters++;
-          return 0;
-        }
-        return -1;
+        /* FILL ME IN! */
+        return 0;
 }
 
 int sthread_write_unlock(sthread_rwlock_t *rwlock)
 {
-        rwlock->numOfWriters--;
+        printf("\nWrite unlock\n");
+        while(test_and_set_bit(&rwlock->spinLock)){
+          sched_yield();
+        }
+        rwlock->numOfWriters=0;
         //if no readers exist after decrementing, wakeup the next queued writers or queued reader
-        if (rwlock->numOfReaders ==0){ 
-            sthread_wake(rwlock->queuedReaders); //first try the readers
-            sthread_wake(rwlock->queuedWriters); //then try the writer
-            
-          } 
+        sthread_wake(NULL); //then try the writer
+        rwlock->spinLock=0;
+             
         return 0;
 }
 
