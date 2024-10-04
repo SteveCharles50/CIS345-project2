@@ -49,7 +49,6 @@ void* routine(void* arg){
     int ptid = *((int*)arg);
     //casting manually assigned threadID number ot thread number
     pthread_mutex_lock(&lock);
-    printf("ptid: %d\n", ptid);
     //calls function to check if thread is prime or composite
     prime = isPrime(ptid);
     //getting threadID will work off of this to process composite and prime threadID
@@ -116,7 +115,7 @@ int main(int argc, char* argv[]){
     //destroying mutex
     pthread_mutex_destroy(&lock);
     pthread_cond_destroy(&CV);
-    printf("tracker: %d\n", tracker);
+    printf("Threads executed: %d\n", tracker);
     return 0;
 }
 
