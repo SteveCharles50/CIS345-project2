@@ -51,6 +51,7 @@ static inline void clear_bit(volatile unsigned long *addr)
 
 int sthread_rwlock_init(sthread_rwlock_t *rwlock)
 {
+        printf("Initiated");
         rwlock->numOfReaders=0;
         rwlock->numOfWriters=0;
         rwlock->spinLock=0;
@@ -70,7 +71,7 @@ int sthread_read_lock(sthread_rwlock_t *rwlock)
         while(test_and_set_bit(&rwlock->spinLock)){
           sched_yield();
         }
-        if(rwlock->numOfReaders >0 || rwlock->numOfWriters){
+        if(rwlock->numOfWriters){
             sthread_suspend(); // if the writer is active, it suspeneds
         }
         rwlock->numOfReaders++;
