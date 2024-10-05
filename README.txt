@@ -16,8 +16,9 @@ Code Logic:
   -To unlock, the number of readers is decremented or the number of writers is set to 0
 
 Compilation Instructions:
-  - type make into the console.
+  - type "make test" into the console.
   - type ./test
+  - alternatively, you can type gcc -m32 -o test sthread.c sync.ctest.c -lpthread.
 
 Output:
   -Unfortunately, my linux system stopped working after working the past week. Now the output I get is simply "warning: ignoring return value of 'write' declared with attribute 'war_unused_result'". This wanring is repeated in some variation 6 times in sthread.c. I do not know what causes this issue, but it prevents ./test from running.
