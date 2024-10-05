@@ -98,8 +98,7 @@ int main(int argc, char* argv[]){
 
     numOfThreads = i-1; //number of threads to execute
 
-    int* threadIDs = malloc(i * sizeof(int)); //dynamically allocating space for threads
-
+    int* threadIDs = (int*)malloc(i * sizeof(int)); //dynamically allocating space for threads
 
     for(int x = 0; x < i; x++){
         threadIDs[x] = x;
