@@ -1,16 +1,2 @@
-# Makefile1
-
-CC = g++
-CFLAGS = -Wall
-LDFLAGS = -lpthread
-TARGET = run
-SRC = messageprint.c
-
-all: $(TARGET)
-
-$(TARGET): $(SRC)
-	$(CC) $(CFLAGS) -o $(TARGET) $(SRC) $(LDFLAGS)
-
-clean:
-	rm -f $(TARGET)
-
+run: messageprint.c
+g++ -o run messageprint.c -lpthread
