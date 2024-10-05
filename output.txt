@@ -1,0 +1,80 @@
+Initiated
+Read Lock
+thread20 ===> Reader thread iteration 0, balance = 10000
+
+Read unlock
+
+Write Lock
+
+Write Lock
+Write Lock
+
+Read Lock
+
+Write Lock
+
+Write Lock
+
+Read Lock
+
+Write Lock
+
+Write Lock
+
+Read Lock
+
+Write Lock
+
+Write Lock
+
+Read Lock
+
+Write Lock
+
+Write Lock
+Write Lock
+
+Read Lock
+R
+Write Lock
+Read Lock
+
+
+ead Lock
+Write Lock
+
+
+
+rite Lock
+Write Lock
+
+
+WWrite Lock
+Write Lock
+
+Write Lock
+Write Lock
+
+Read Lock
+RWrite Lock
+Write Lock
+Write Lock
+
+Read Lock
+Read Lock
+
+
+
+
+Write Lock
+Write Lock
+Write Lock
+
+Read Lock
+Read Lock
+
+Read Lock
+
+
+Write Lock
+the balnce is 10000
