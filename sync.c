@@ -51,7 +51,7 @@ static inline void clear_bit(volatile unsigned long *addr)
 
 int sthread_rwlock_init(sthread_rwlock_t *rwlock)
 {
-        printf("Initiated");
+        printf("\nInitiated");
         rwlock->numOfReaders=0;
         rwlock->numOfWriters=0;
         rwlock->spinLock=0;
