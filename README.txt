@@ -4,6 +4,23 @@ Michael Hylton 2788154 50%
 
 part 1:
 
+Design ideaas:
+  -Whenever a program calls a lock or unlock function, it will initiate the spinlock until that process is finished
+  -A while loop with sched_yield() inside will force it to yield as long as the spinlock is set, and it will suspend if there are any readers or writers
+  -The unlock function will wake the next function once there are no readers.
+
+Code Logic:
+  -The variables used throughout are defined in sync.h and called using rwlock->{variable_name}
+  -The variables are first initiated where the number of readers and writers are set to 0, as well as the spinlock.
+  -upon entering any lock or unlock funtion, have the while loop with sched_yield(). But the address of the spinlock is pass to test_and_set_bit which will set it to 1 until it changes, trapping the thread in the loop until the process is finsihed.
+  -To unlock, the number of readers is decremented or the number of writers is set to 0
+
+Compilation Instructions:
+  - type make into the console.
+  - type ./test
+
+Output:
+  -Unfortunately, my linux system stopped working after working the past week. Now the output I get is simply "warning: ignoring return value of 'write' declared with attribute 'war_unused_result'". This wanring is repeated in some variation 6 times in sthread.c. I do not know what causes this issue, but it prevents ./test from running.
 
 part 2: 
 
