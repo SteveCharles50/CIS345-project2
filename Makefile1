@@ -1,2 +1,0 @@
-run: messageprint.c
-g++ -o run messageprint.c -lpthread
