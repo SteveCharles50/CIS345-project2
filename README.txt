@@ -40,8 +40,9 @@ Code Logic
 
 
 Compilation instructions:
-  -The makefile for part 2 is name Makefile1 to avoid confusion with the makefile in part 1. In order to compile the program all you need to type in your shell is the statement make1.
-  -Once you type make1 you will be prompted with a statement like this:
+  -type make run in the command line. This will compile the file
+  -Now you can use ./run to run the program
+  -The program should prompt you to enter the desired number of threads for input. 
 
                 -$Enter desired number of threads:
                   20 <----- This is where you are prompted to enter a number. Once you have entered the desired number make sure to press enter.
