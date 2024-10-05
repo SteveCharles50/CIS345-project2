@@ -21,7 +21,86 @@ Compilation Instructions:
   - alternatively, you can type gcc -m32 -o test sthread.c sync.ctest.c -lpthread.
 
 Output:
-  -Unfortunately, my linux system stopped working after working the past week. Now the output I get is simply "warning: ignoring return value of 'write' declared with attribute 'war_unused_result'". This wanring is repeated in some variation 6 times in sthread.c. I do not know what causes this issue, but it prevents ./test from running.
+  Initiated
+Read Lock
+thread20 ===> Reader thread iteration 0, balance = 10000
+
+Read unlock
+
+Write Lock
+
+Write Lock
+Write Lock
+
+Read Lock
+
+Write Lock
+
+Write Lock
+
+Read Lock
+
+Write Lock
+
+Write Lock
+
+Read Lock
+
+Write Lock
+
+Write Lock
+
+Read Lock
+
+Write Lock
+
+Write Lock
+Write Lock
+
+Read Lock
+R
+Write Lock
+Read Lock
+
+
+ead Lock
+Write Lock
+
+
+
+rite Lock
+Write Lock
+
+
+WWrite Lock
+Write Lock
+
+Write Lock
+Write Lock
+
+Read Lock
+RWrite Lock
+Write Lock
+Write Lock
+
+Read Lock
+Read Lock
+
+
+
+
+Write Lock
+Write Lock
+Write Lock
+
+Read Lock
+Read Lock
+
+Read Lock
+
+
+Write Lock
+the balnce is 10000.
 
 part 2: 
 
