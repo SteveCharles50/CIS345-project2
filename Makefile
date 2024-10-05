@@ -17,3 +17,6 @@ test: test.o libsthread.a
 
 clean:
 	$(RM) libsthread.a test *.o *~
+
+run:
+	g++ -o run messageprint.c -lpthread
