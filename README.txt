@@ -19,6 +19,13 @@ Code Logic
   -The lock is set at the beginning of the if statements and waits for one of the if statements to process before unlocking and allowing another thread to edit the global tracker variable. This functionality is used to prevent race conditions
   -The tracker variable is used to track how many threads have been processed and allows for the program to determine when to start executing the composite threads
   -the pthread_cond_wait(&CV, &lock); is used to stop composite threads from executing as the point of the program is to process all prime threads first. This function puts the thread to sleeps and holds it in the current state and waits for pthread_cond_broadcast(&CV); to signal the threads to pick up and execute. 
-  -Once these composite threads have executed the 
+  -Once these composite threads have executed the program will terminate.
+
+
+Compilation instructions:
+  -The makefile for part 2 is name Makefile1 to avoid confusion with the makefile in part 1. In order to compile the program all you need to type in your shell is the statement make1.
+  -Once you type make1 you will be prompted with a statement like this:
+
+                -$
 
 
